@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-import userController from "../controllers/userController";
+import userController from "../controllers/user";
 import auth from "../middleware/auth";
 
 

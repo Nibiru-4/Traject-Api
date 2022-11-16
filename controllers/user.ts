@@ -3,7 +3,7 @@ import { PrismaClient } from "@prisma/client";
 const prisma  = new PrismaClient();
 
 
-const userController = {
+const user = {
 
     async getUserById(req : any, res : any) {
 
@@ -44,4 +44,4 @@ const userController = {
 
 
 
-export default userController
+export default user

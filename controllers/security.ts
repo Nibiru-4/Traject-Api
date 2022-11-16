@@ -7,6 +7,11 @@ const jwt = require("jsonwebtoken");
 
 const security = {
     async login(req : Request, res : Response) {
+
+        if( !req.body.email || !req.body.password ){
+            return res.status(400).send({message:"Missing email or password"}) 
+        }
+
         const user = await prisma.user.findUnique({
             where: {
                 email: req.body.email
@@ -14,12 +19,12 @@ const security = {
             }})
 
         if( !user){
-            res.status(404).send("User not found")
+            res.status(404).send({message: "User not found"})
         }
         const valid = await bcrypt.compare(req.body.password, user!.password)
 
         if(!valid){
-            res.status(401).send("Invalid password")
+            res.status(401).send({message: "Invalid password"})
         }
 
         const data = {
@@ -32,7 +37,7 @@ const security = {
 
     async register(req : Request, res : Response) {
         if( !req.body.email || !req.body.password){
-            res.status(400).send("Missing email or password")
+            res.status(400).send({message: "Missing email or password"})
         }
 
         const user = await prisma.user.findUnique({
@@ -42,7 +47,7 @@ const security = {
         
     
         if(user){
-            res.status(400).send("User already exists")
+            res.status(400).send({message: "User already exists"})
         }
 
         const hash = await bcrypt.hash(req.body.password, 10)
@@ -51,7 +56,7 @@ const security = {
                 data: {
                     email: req.body.email,
                     password: hash,
-                    fisrtname: req.body.firstname,
+                    firstname: req.body.firstname,
                     lastname: req.body.lastname,
                 }
         }).then((data) => {
