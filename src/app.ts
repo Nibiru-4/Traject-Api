@@ -1,41 +1,46 @@
-import express, { Application, Request, Response } from 'express'
-import loadUser from '../middleware/loadUser'
+import express, {type Application, type Request, type Response} from "express"
+import loadUser from "../middleware/loadUser"
 
 
-const cors = require('cors')
-const bodyParser = require('body-parser')
+
+import BodyParser from "body-parser"
+import dotenv from "dotenv"
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const cors = require("cors")
+
+
+dotenv.config()
+
+
 
 
 const app: Application = express()
 
-
 /**
  * Dotenv const
  */
- const dotenv = require("dotenv").config();
-
- //consts
- const PORT : string = process.env.PORT || "3630";
- app.use(cors());
- app.use(bodyParser.urlencoded({ extended: true }));
- app.use(bodyParser.json());
 
 
+// Consts
+const PORT: string = process.env.PORT || "3630"
+app.use(cors())
+app.use(BodyParser.urlencoded({extended: true}))
+app.use(BodyParser.json())
 
-app.get('/ping', (req: Request, res: Response) => {
-    res.status(200).send({message:" Pong 🏓"})
+app.get("/ping", (req: Request, res: Response) => {
+	res.status(200).send({message: " Pong 🏓"})
 })
-
 
 /** MiddleWare de préparation de la requête  */
-app.use("/api/user/:id", (req: Request, res: Response, next: any) => { 
-    loadUser(req, res, next)
+app.use("/api/user/:id", (req: Request, res: Response, next: () => void) => {
+	loadUser(req, res, next)
 })
 
-/** import des routes */
-require('../routes')(app)
+/** Import des routes */
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+require("../routes")(app)
 
 
-app.listen(PORT, function () {
-    console.log(`App is listening on port ${PORT} !`)
+app.listen(PORT, () => {
+	console.log(`App is listening on port ${PORT} !`)
 })

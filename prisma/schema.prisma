@@ -18,3 +18,20 @@ model User {
   password  String
   createdAt DateTime @default(now())
 }
+
+
+model Doctor {
+    id  Int @id @default(autoincrement())
+    email String @unique
+    password String
+    firstname String
+    lastname String
+    specialityId Int?
+    speciality Speciality? @relation(fields: [specialityId], references : [id])
+}
+
+model Speciality {
+    id Int @id @default(autoincrement())
+    label String @unique
+    doctors Doctor[]
+}

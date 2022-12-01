@@ -1,9 +1,9 @@
-import { PrismaClient } from "@prisma/client";
-import userController from "../controllers/user";
-import auth from "../middleware/auth";
+import { PrismaClient } from "@prisma/client"
+import userController from "../controllers/user"
+import auth from "../middleware/auth"
 
 
-const prisma = new PrismaClient();
+const prisma = new PrismaClient()
 
 module.exports = [
     {

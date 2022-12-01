@@ -1,6 +1,6 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from "@prisma/client"
 
-const prisma  = new PrismaClient();
+const prisma  = new PrismaClient()
 
 
 const user = {
@@ -8,7 +8,7 @@ const user = {
     async getUserById(req : any, res : any) {
 
         const idUser : number = parseInt(req.params.id);
-        
+
         const user = await prisma.user.findUnique({
             where: {
                 id: idUser
@@ -18,7 +18,7 @@ const user = {
     },
     async deleteUserById(req : any, res : any) {
 
-        const idUser : number = parseInt(req.params.id);
+        const idUser : number = parseInt(req.params.id)
 
         const user = await prisma.user.delete({
             where: {
@@ -28,7 +28,7 @@ const user = {
         res.status(200).send(user)
     },
     async updateUserById(req : any, res : any) {
-        const idUser : number = parseInt(req.params.id);
+        const idUser : number = parseInt(req.params.id)
 
         const user = await prisma.user.update({
             where: {
@@ -39,7 +39,7 @@ const user = {
             }
         })
         res.status(200).send(user)
-    } 
+    }
 }
 
 
