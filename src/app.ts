@@ -5,13 +5,10 @@ import loadUser from "../middleware/loadUser"
 
 import BodyParser from "body-parser"
 import dotenv from "dotenv"
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const cors = require("cors")
+import cors from "cors"
 
 
 dotenv.config()
-
-
 
 
 const app: Application = express()
