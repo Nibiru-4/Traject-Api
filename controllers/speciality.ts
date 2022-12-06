@@ -1,6 +1,5 @@
 import { PrismaClient } from "@prisma/client"
 import {type Request, type Response} from "express"
-import {create} from "domain"
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const bcrypt = require("bcrypt")
@@ -10,7 +9,7 @@ const prisma  = new PrismaClient()
 
 const speciality = {
     async getSpecialityById(req : Request, res : Response) {
-        const idSpeciality : number = parseInt(req.params.id)
+        const idSpeciality : number = parseInt(req.params.idSpeciality)
 
         const speciality  = await prisma.speciality.findUnique({
             where: {
@@ -18,10 +17,10 @@ const speciality = {
             }
         })
 
-        res.status(200).send(speciality)
+        return res.status(200).send(speciality)
     },
     async deleteSpecialityById(req: Request,res: Response) {
-        const idSpeciality: number = parseInt(req.params.id)
+        const idSpeciality: number = parseInt(req.params.idSpeciality)
 
         const speciality = await prisma.speciality.delete({
             where: {
@@ -29,10 +28,10 @@ const speciality = {
             }
         })
 
-        res.status(200).send(speciality)
+        return res.status(200).send(speciality)
     },
     async updateSpecialityById (req: Request, res : Response) {
-        const idSpeciality : number = parseInt(req.params.id)
+        const idSpeciality : number = parseInt(req.params.idSpeciality)
 
         const speciality = await prisma.speciality.update({
             where: {
@@ -43,11 +42,11 @@ const speciality = {
             }
         })
 
-        res.status(200).send(speciality)
+        return res.status(200).send(speciality)
     },
     async createSpeciality( req: Request, res: Response) {
         if( !req.body.label){
-            res.status(400).send({message: "Missing credentials"})
+            return res.status(400).send({message: "Missing credentials"})
         }
 
         const speciality = await prisma.speciality.create({
@@ -56,7 +55,7 @@ const speciality = {
             }
         })
 
-        res.status(200).send(speciality)
+        return res.status(200).send(speciality)
     }
 
 }

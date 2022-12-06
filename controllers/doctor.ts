@@ -1,34 +1,32 @@
-import { PrismaClient } from "@prisma/client"
+import {PrismaClient} from "@prisma/client"
 import {type Request, type Response} from "express"
-import {create} from "domain"
+
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const bcrypt = require("bcrypt")
 
-const prisma  = new PrismaClient()
-
-
+const prisma = new PrismaClient()
 
 
 const doctor = {
 
-    async getDoctorById(req : Request, res : Response) {
+    async getDoctorById(req: Request, res: Response) {
 
-        const idDoctor : number = parseInt(req.params.id)
+        const idDoctor: number = parseInt(req.params.idDoctor)
 
-        const doctor  = await prisma.doctor.findUnique({
+        const doctor = await prisma.doctor.findUnique({
             where: {
                 id: idDoctor
             },
             include: {
-                speciality : true
+                speciality: true
             }
         })
 
         res.status(200).send(doctor)
     },
-    async deleteDoctorById(req: Request,res: Response) {
-        const idDoctor: number = parseInt(req.params.id)
+    async deleteDoctorById(req: Request, res: Response) {
+        const idDoctor: number = parseInt(req.params.idDoctor)
 
         const doctor = await prisma.doctor.delete({
             where: {
@@ -36,16 +34,16 @@ const doctor = {
             }
         })
 
-        res.status(200).send({message : "Doctor deleted"})
+        res.status(200).send({message: "Doctor deleted"})
     },
-    async updateDoctorById (req: Request, res : Response) {
-        const idDoctor : number = parseInt(req.params.id)
+    async updateDoctorById(req: Request, res: Response) {
+        const idDoctor: number = parseInt(req.params.idDoctor)
 
         const doctor = await prisma.doctor.update({
             where: {
                 id: idDoctor
             },
-            data : {
+            data: {
                 ...req.body
             }
         })
@@ -53,9 +51,11 @@ const doctor = {
         res.status(200).send(doctor)
     },
 
-    async createDoctor( req: Request, res: Response) {
-        if( !req.body.email || !req.body.firstname){
-            res.status(400).send({message: "Missing credentials"})
+    async createDoctor(req: Request, res: Response) {
+
+
+        if (!req.body.email || !req.body.firstname) {
+            return res.status(400).send({message: "Missing credentials"})
         }
 
         const doctor = await prisma.doctor.findUnique({
@@ -64,30 +64,30 @@ const doctor = {
             }
         })
 
-        if(doctor){
-            res.status(400).send({message: "Doctor Already exists"})
+        if (doctor) {
+            return res.status(400).send({message: "Doctor Already exists"})
         }
 
         const hash = await bcrypt.hash(req.body.password, 10)
 
-            .then( (hash : string) => {
+            .then((hash: string) => {
                 prisma.doctor.create({
                     data: {
                         email: req.body.email,
                         password: hash,
                         firstname: req.body.firstname,
                         lastname: req.body.lastname,
-                        specialityId : parseInt(req.body.specialityId),
+                        specialityId: parseInt(req.body.specialityId),
 
                     }
 
                 }).then((data) => {
-                    res.status(201).send({response : data})
+                    return res.status(201).send(data)
                 })
 
                     .catch((err) => {
                         console.log(err)
-                        res.status(500).send("could not create doctor")
+                        return res.status(500).send("could not create doctor")
                     })
             })
 

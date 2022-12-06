@@ -1,4 +1,4 @@
-import securityController from '../controllers/security';
+import securityController from "../controllers/security"
 
 
 module.exports = [

@@ -18,7 +18,7 @@ module.exports = [
     },
     {
         url : "/api/user/:id",
-        method :"post",
+        method :"put",
         func : [auth, userController.updateUserById]
     },
     

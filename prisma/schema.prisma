@@ -28,10 +28,40 @@ model Doctor {
     lastname String
     specialityId Int?
     speciality Speciality? @relation(fields: [specialityId], references : [id])
+    patients Patient[]
+    prescriptions Prescription[]
 }
 
 model Speciality {
     id Int @id @default(autoincrement())
     label String @unique
     doctors Doctor[]
+}
+
+model Prescription {
+    id Int @id @default(autoincrement())
+    doctorId Int
+    doctor Doctor? @relation(fields: [doctorId], references: [id])
+    patientId Int
+    patient Patient? @relation(fields: [patientId], references: [id], onDelete: Cascade)
+    date DateTime @default(now())
+    label String
+    description String
+    status String
+}
+
+
+model Patient {
+    id Int @id @default(autoincrement())
+    firstname String
+    lastname String
+    email String @unique
+    phone String
+    password String
+    createdAt DateTime @default(now())
+
+    doctorId Int?
+    doctor Doctor? @relation(fields: [doctorId], references: [id])
+
+    prescriptions Prescription[]
 }

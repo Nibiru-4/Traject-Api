@@ -4,22 +4,22 @@ import auth from "../middleware/auth"
 
 module.exports = [
     {
-        url : "/api/speciality/:id",
+        url : "/api/user/:id/speciality/:idSpeciality",
         method :"get",
         func : [auth, specialityController.getSpecialityById]
     },
     {
-        url : "/api/speciality/",
+        url : "/api/user/:id/speciality/",
         method :"post",
         func : [auth, specialityController.createSpeciality]
     },
     {
-        url : "/api/speciality/:id",
+        url : "/api/user/:id/speciality/:idSpeciality",
         method :"put",
         func : [auth, specialityController.updateSpecialityById]
     },
     {
-        url : "/api/speciality/:id",
+        url : "/api/user/:id/speciality/:idSpeciality",
         method :"delete",
         func : [auth, specialityController.deleteSpecialityById]
     }

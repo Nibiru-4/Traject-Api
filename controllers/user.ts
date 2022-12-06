@@ -13,6 +13,8 @@ const user = {
             where: {
                 id: idUser
             }
+        }).catch( (err : any) => {
+            res.status(400).send({message: err})
         })
         res.status(200).send(user)
     },
@@ -24,6 +26,8 @@ const user = {
             where: {
                 id: idUser
             }
+        }).catch( (err : any) => {
+            res.status(400).send({message: err})
         })
         res.status(200).send(user)
     },
@@ -37,6 +41,8 @@ const user = {
             data: {
                 ...req.body
             }
+        }).catch( (err : any) => {
+            res.status(400).send({message: err})
         })
         res.status(200).send(user)
     }
