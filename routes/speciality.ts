@@ -4,6 +4,11 @@ import auth from "../middleware/auth"
 
 module.exports = [
     {
+        url : "/api/user/:id/speciality/",
+        method :"get",
+        func : [auth, specialityController.getAllSpecialities]
+    },
+    {
         url : "/api/user/:id/speciality/:idSpeciality",
         method :"get",
         func : [auth, specialityController.getSpecialityById]

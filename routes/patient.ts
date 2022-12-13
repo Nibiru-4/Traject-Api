@@ -22,6 +22,15 @@ module.exports = [
         url : "/api/user/:id/patient/:idPatient",
         method :"delete",
         func : [auth, patientController.deletePatientById]
+    },
+    {
+        url: "/api/user/:id/doctor/:idDoctor/patient",
+        method: "get",
+        func: [auth, patientController.getPatientsByIdDoctor]
+    },{
+        url : "/api/user/:id/patient/",
+        method :"get",
+        func : [auth, patientController.getAllPatients]
     }
 
 

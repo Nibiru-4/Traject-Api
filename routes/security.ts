@@ -12,4 +12,9 @@ module.exports = [
         method: "post",
         func : securityController.register
     },
-];
+    {
+        url: "/api/whoami",
+        method: "post",
+        func : securityController.whoami
+    }
+]

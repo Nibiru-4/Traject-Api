@@ -8,6 +8,10 @@ const prisma  = new PrismaClient()
 
 
 const speciality = {
+    async getAllSpecialities(req: Request, res: Response) {
+        const specialities = await prisma.speciality.findMany()
+        res.status(200).send(specialities)
+    },
     async getSpecialityById(req : Request, res : Response) {
         const idSpeciality : number = parseInt(req.params.idSpeciality)
 

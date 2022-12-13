@@ -1,11 +1,33 @@
-import { PrismaClient } from "@prisma/client";
-import { Request, Response } from "express";
+import { PrismaClient } from "@prisma/client"
+import { Request, Response } from "express"
 
-const bcrypt = require("bcrypt");
-const prisma = new PrismaClient();
-const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt")
+const prisma = new PrismaClient()
+const jwt : any = require("jsonwebtoken")
 
 const security = {
+    async whoami(req: Request, res: Response) {
+        const token = req.headers.authorization?.split(" ")[1] || ""
+        let decodedToken : any  = {}
+        try {
+            decodedToken = await jwt.verify(token,process.env.JWT_SECRET)
+        }catch (e){
+            return res.status(401).send({message: "Invalid token"})
+        }
+
+        const userId = decodedToken.id
+        const user = await prisma.user.findUnique({
+            where: {
+                id: userId
+            }
+        })
+
+        if(!user){
+           return  res.status(401).send({message: "Invalid token"})
+        }
+
+        return res.status(200).send(user)
+    },
     async login(req : Request, res : Response) {
 
         if( !req.body.email || !req.body.password ){
@@ -29,7 +51,7 @@ const security = {
 
         const data = {
             userId : user!.id,
-            jwt : jwt.sign({id: user!.id},process.env.JWT_SECRET , {expiresIn: "1h"})
+            jwt : jwt.sign({id: user!.id,email: user!.email},process.env.JWT_SECRET , {expiresIn: "1h"})
          }  
         
          res.status(200).send(data)

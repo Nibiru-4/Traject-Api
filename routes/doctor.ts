@@ -22,6 +22,11 @@ module.exports = [
         url : "/api/user/:id/doctor/:idDoctor",
         method :"put",
         func : [auth, doctorController.updateDoctorById]
+    },
+    {
+        url : "/api/user/:id/doctor/",
+        method :"get",
+        func : [auth, doctorController.getAllDoctors]
     }
 
 

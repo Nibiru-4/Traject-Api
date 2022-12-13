@@ -9,6 +9,15 @@ const prisma = new PrismaClient()
 
 
 const doctor = {
+    async getAllDoctors(req: Request, res: Response) {
+        const doctors = await prisma.doctor.findMany({
+            include: {
+                speciality: true
+            }
+        })
+        res.status(200).send(doctors)
+    }
+    ,
 
     async getDoctorById(req: Request, res: Response) {
 
@@ -53,6 +62,7 @@ const doctor = {
 
     async createDoctor(req: Request, res: Response) {
 
+        console.log(req.body)
 
         if (!req.body.email || !req.body.firstname) {
             return res.status(400).send({message: "Missing credentials"})
@@ -77,7 +87,7 @@ const doctor = {
                         password: hash,
                         firstname: req.body.firstname,
                         lastname: req.body.lastname,
-                        specialityId: parseInt(req.body.specialityId),
+                        specialityId: parseInt(req.body.speciality),
 
                     }
 

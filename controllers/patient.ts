@@ -8,6 +8,21 @@ const prisma = new PrismaClient()
 
 const patient = {
 
+    async getAllPatients(req: Request, res: Response) {
+        const patients = await prisma.patient.findMany()
+        res.status(200).send(patients)
+    },
+
+    async getPatientsByIdDoctor(req: Request, res: Response) {
+        const idDoctor: number = parseInt(req.params.idDoctor)
+        const patients = await prisma.patient.findMany({
+            where: {
+                doctorId: idDoctor
+            }
+        })
+        res.status(200).send(patients)
+    },
+
     async getPatientById(req: Request, res: Response) {
         const idPatient: number = parseInt(req.params.idPatient)
         const patient = await prisma.patient.findUnique({
